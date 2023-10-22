@@ -1,34 +1,33 @@
+// Import NPM Modules
 import React, {useState} from "react";
 import axios from 'axios';
 
+console.log("NewTransaction.jsx= => NPM modules imported");
 
 function NewTransaction() {
+  console.log("NewTransaction.jsx= => NewTransaction - function call");
 
   const[accId, setAccId] = useState("");
   const[amt, setAmt] = useState("");
+  console.log("NewTransaction.jsx= => NewTransaction => Default state assigned");
 
   const handleSubmit = (event) => {
     // Perform action on button click
-    console.log('Submit Button clicked!');
-    console.log('Account Id is ', accId);
-    console.log('Amount is ', amt);
+    console.log("NewTransaction.jsx= => NewTransaction => handleSubmit - function call");
 
+    console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Account Id is ", accId);
+    console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Amount is ", amt);
 
-    axios.get('http://localhost:5000/ping');
-
+    // Post the transaction request
     axios.post('http://localhost:5000/transactions', {
       "account_id" : accId,
       "amount": amt,
     })
     .then((res) => {
-      console.log(res);
-      axios.get('http://localhost:5000/transactions')
-      .then((res) => console.log(res))
-      .catch(err => console.error(err));
+      // Response is the transaction
+      console.log("NewTransaction.jsx= => NewTransaction => POST http://localhost:5000/transactions : ", res.data);
     })
     .catch(err => console.error(err));
-    
-    event.preventDefault();
   };
 
   return (

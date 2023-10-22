@@ -1,13 +1,20 @@
+// Import NPM Modules
 import React, {useEffect} from "react";
 import Stack from 'react-bootstrap/Stack';
 
+console.log("TransactionHistory.jsx= => NPM modules imported");
+
 function TransactionHistory() {
     useEffect(() => {
-        console.log("Page Reloaded, Get All Transactions");
+        console.log("TransactionHistory.jsx= => TransactionHistory - function call");
     }, []);
 
     const getTransactions = (event) => {
-        
+        /*axios.get('http://localhost:5000/transactions')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch(err => console.error(err));*/
     };
 
     return (
