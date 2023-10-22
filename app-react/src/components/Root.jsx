@@ -1,3 +1,4 @@
+import React from "react";
 import Stack from 'react-bootstrap/Stack';
 import NewTransaction from "./NewTransaction";
 import TransactionHistory from './TransactionHistory';

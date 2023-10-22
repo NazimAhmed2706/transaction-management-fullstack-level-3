@@ -3,7 +3,7 @@ import Root from "./components/Root";
 
 function App() {
   return (
-    <div className="App common-font">
+    <div className="common-font">
       <Root />
     </div>
   );
