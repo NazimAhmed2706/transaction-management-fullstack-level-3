@@ -1,8 +1,12 @@
 const express = require("express");
+
 const bodyParser = require("body-parser");
-const api_endpoints = require("../api");
-const app = express();
 const cors = require("cors");
+
+const api_endpoints = require("../api");
+const common_logic = require("../api/common_logic");
+const transactions = require("../api/transactions");
+const app = express();
 
 app.use(
   cors({
@@ -13,10 +17,10 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use("/", does_method_exist, api_endpoints);
+app.use("/", common_logic.does_method_exist, api_endpoints);
+app.use("/transactions", transactions);
 
-const arrayOfTransaction = [];
-
+/*
 app
   .route("/transactions")
   .post((req, res) => {
@@ -39,6 +43,7 @@ app
     res.json(JSON.stringify(arrayOfTransaction));
     res.sendStatus(200);
   });
+*/
 
 app.get("*", (req, res) => {
   res.status(404).send("404 Not Found");
@@ -46,14 +51,6 @@ app.get("*", (req, res) => {
 
 function does_method_exist(req, res, next) {
   next();
-}
-
-function uuid() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
 }
 
 module.exports = app;
