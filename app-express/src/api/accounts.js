@@ -28,7 +28,10 @@ router
     })[0];
 
     console.log("accounts.js => 200 : ", account);
-    res.status(200).json(JSON.stringify(account));
+    res.status(200).json({
+      account_id: account.account_id,
+      balance: account.balance,
+    });
   });
 
 // exported for external use
