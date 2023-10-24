@@ -27,7 +27,6 @@ function TransactionHistory() {
                 const transaction = arrayOfTransactions[index];
                 console.log("TransactionHistory.jsx= => TransactionHistory => Transactions : ", index, transaction);
                 
-                
                 let transactionJSON;
                 if(index === 0){
                     // Add Balance Detail for latest transaction
