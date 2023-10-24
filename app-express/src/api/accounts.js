@@ -32,6 +32,7 @@ router
       account_id: account.account_id,
       balance: account.balance,
     });
+    //res.status(200).json(JSON.stringify(account));
   });
 
 // exported for external use

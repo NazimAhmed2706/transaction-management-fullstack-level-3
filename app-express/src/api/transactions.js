@@ -40,7 +40,7 @@ router
     console.log("transactions.js => Transaction ", currentTxn);
 
     // Add Transaction to the array of transactions
-    memory.arrayOfTransactions.push(currentTxn);
+    memory.arrayOfTransactions.unshift(currentTxn);
     console.log(
       "transactions.js => Transaction added to the array of transactions, Array Count:",
       memory.arrayOfTransactions.length

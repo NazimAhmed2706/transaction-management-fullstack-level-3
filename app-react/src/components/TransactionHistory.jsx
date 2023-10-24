@@ -13,6 +13,7 @@ function TransactionHistory() {
         console.log("TransactionHistory.jsx= => TransactionHistory - function call");
         const tempTransactionSummary = [];
 
+        // Get All Transactions
         axios
             .get('http://localhost:5000/transactions')
             .then(async function (response) {
@@ -25,45 +26,80 @@ function TransactionHistory() {
             for (let index = 0; index < arrayOfTransactions.length; index++) {
                 const transaction = arrayOfTransactions[index];
                 console.log("TransactionHistory.jsx= => TransactionHistory => Transactions : ", index, transaction);
-                var txnDir = "to";
-                var txnAmt = + transaction.amount; 
-                if ((transaction.amount) < 0) {
-                    txnDir = "from";
-                    txnAmt = txnAmt * -1;
-                }
                 
-                let indexingTransactionSummary = "Transferred " + txnAmt + "$ " + txnDir + " account " + transaction.account_id + ".";
-
-                // Add Balance Detail for latest transaction
                 
-                if(index === arrayOfTransactions.length - 1){
+                let transactionJSON;
+                if(index === 0){
+                    // Add Balance Detail for latest transaction
                     let accBalance = 0;
                     await axios
                         .get('http://localhost:5000/accounts/'+transaction.account_id)
                         .then(function (response) {
                             // Response is the account details
                             console.log("TransactionHistory.jsx= => TransactionHistory => GET http://localhost:5000/accounts/" + transaction.account_id + " : ", response.data);
-                            const accountDetails = JSON.parse(response.data);
+                            var accountDetails = response.data;
                             accBalance = +accountDetails.balance;
                             console.log("TransactionHistory.jsx= => TransactionHistory => Account Balance " + accBalance + "$");
-                            indexingTransactionSummary = indexingTransactionSummary + "\nThe current account balance is " + accBalance + "$."
                         });
-                    
+                    transactionJSON = {
+                        account_id:transaction.account_id,
+                        transaction_id:transaction.transaction_id,
+                        amount : transaction.amount,
+                        balance: accBalance
+                    };                   
+                } else {
+                    transactionJSON = {
+                        account_id:transaction.account_id,
+                        transaction_id:transaction.transaction_id,
+                        amount : transaction.amount
+                    };
                 }
-                tempTransactionSummary.push(indexingTransactionSummary)
-                console.log("TransactionHistory.jsx= => TransactionHistory => ", indexingTransactionSummary);
+
+                // Add individual transaction summary as json
+                tempTransactionSummary.push(transactionJSON)
+                console.log("TransactionHistory.jsx= => TransactionHistory => ", transactionJSON);
             }
-            tempTransactionSummary.reverse();
             setTransactionSummary(tempTransactionSummary);
             })
             .catch(err => console.error(err));
     },[]);
 
+    if (transactionSummary.length === 0){
+        return (
+            <div className='mt-3'> 
+                <p>No transaction history found</p>
+            </div>
+        );
+    }
+
     return (
-        <Stack direction="vertical" className='mt-3' gap={3}>
+        <Stack direction="vertical" className='mt-3' gap={3} >
             {
-                transactionSummary.map((transaction)=>{
-                    return <div className="border rounded p-3" key={transaction} style={{whiteSpace: 'pre-line'}}>{transaction}</div>
+                transactionSummary.map((transaction, index)=>{
+
+                    // Assign Transaction Direction from/to
+                    var transactionDirection = "to";
+                    var transactionAmount = + transaction.amount; 
+                    if ((transactionAmount) < 0) {
+                        transactionDirection = "from";
+                        transactionAmount = transactionAmount * -1;
+                    }
+
+                    // For latest transaction, display account balance as well.
+                    if (index === 0 ){
+                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={transactionAmount} data-balance={transaction.balance} 
+                                    className="border rounded p-3" key={transaction.transaction_id}>
+                                    Transferred {transactionAmount}$ {transactionDirection} account {transaction.account_id}. <br />
+                                    The current balance is {transaction.balance}$. 
+                                </div>
+                    }
+                    else {
+                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={transactionAmount} 
+                                    className="border rounded p-3" key={transaction.transaction_id}>
+                                    Transferred {transactionAmount}$ {transactionDirection} account {transaction.account_id}.
+                                </div>
+                    }
+                    
                 })
             }
 

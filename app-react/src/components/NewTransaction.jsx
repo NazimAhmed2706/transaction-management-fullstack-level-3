@@ -34,14 +34,14 @@ function NewTransaction() {
     <form className="border rounded mt-3 p-3" onSubmit={handleSubmit}>
       <div className="form-group mb-3">
         <label>Account ID:</label>
-        <input type="string" className="form-control" placeholder="Enter Account ID" value={accId} onChange={(e)=> setAccId(e.target.value)} />
+        <input type="string" data-type="account-id" className="form-control" placeholder="Enter Account ID" value={accId} onChange={(e)=> setAccId(e.target.value)} />
       </div>
       <div className="form-group mb-3">
         <label>Amount:</label>
-        <input type="integer" className="form-control" placeholder="Enter Amount" value={amt} onChange={(e)=> setAmt(e.target.value)}/>
+        <input type="integer" data-type="amount" className="form-control" placeholder="Enter Amount" value={amt} onChange={(e)=> setAmt(e.target.value)}/>
       </div>
       <div className='d-flex justify-content-center'>
-        <button type="submit" className="btn btn-outline-primary">Submit</button>
+        <button type="submit" data-type="transaction-submit" className="btn btn-outline-primary">Submit</button>
       </div>
     </form>    
   );
