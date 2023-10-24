@@ -24,6 +24,12 @@ function NewTransaction() {
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Account Id is ", accId);
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Amount is ", amt);
 
+    const accountIDRegExp = /^[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-[a-f0-9]{4}\-[a-f0-9]{12}/;
+    if(! accountIDRegExp.test(accId)){
+      console.log("NewTransaction.jsx= => NewTransaction => Invalid Account Id: ", accId);
+      return;
+    }
+
     const form = event.currentTarget;
     if (form.checkValidity() === false){
       console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Error: Validation Failed!!");
