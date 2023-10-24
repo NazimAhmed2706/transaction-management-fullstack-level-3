@@ -1,6 +1,11 @@
 // Import NPM Modules
 import React, {useState} from "react";
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
+
+
 
 console.log("NewTransaction.jsx= => NPM modules imported");
 
@@ -9,6 +14,7 @@ function NewTransaction() {
 
   const[accId, setAccId] = useState("");
   const[amt, setAmt] = useState("");
+  const[validated, setValidation] = useState(false);
   console.log("NewTransaction.jsx= => NewTransaction => Default state assigned");
 
   const handleSubmit = (event) => {
@@ -17,6 +23,15 @@ function NewTransaction() {
 
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Account Id is ", accId);
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Amount is ", amt);
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false){
+      console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Error: Validation Failed!!");
+      return;
+    }
+
+    setValidation(true);
+    console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Validation Success.");
 
     // Post the transaction request
     axios.post('http://localhost:5000/transactions', {
@@ -31,19 +46,23 @@ function NewTransaction() {
   };
 
   return (
-    <form className="border rounded mt-3 p-3" onSubmit={handleSubmit}>
-      <div className="form-group mb-3">
-        <label>Account ID:</label>
-        <input type="string" data-type="account-id" className="form-control" placeholder="Enter Account ID" value={accId} onChange={(e)=> setAccId(e.target.value)} />
+    <Form className="border rounded mt-3 p-1" noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form.Group as={Row} className="m-1">
+        <Form.Label>Account ID:</Form.Label>
+        <Form.Control required type="string" data-type="account-id" placeholder="Enter Account ID" value={accId} onChange={(e)=> setAccId(e.target.value)} />
+        <Form.Control.Feedback type="invalid">Please enter a valid Account ID</Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group as={Row} className="m-1">
+        <Form.Label>Amount:</Form.Label>
+        <Form.Control required type="number" data-type="amount" placeholder="Enter Amount" value={amt} onChange={(e)=> setAmt(e.target.value)} />
+        <Form.Control.Feedback type="invalid">Please enter a valid amount</Form.Control.Feedback>
+      </Form.Group>
+      <div className='d-flex justify-content-center mt-3'>
+        <Button type="submit" data-type="transaction-submit" variant="primary">Submit</Button>
       </div>
-      <div className="form-group mb-3">
-        <label>Amount:</label>
-        <input type="integer" data-type="amount" className="form-control" placeholder="Enter Amount" value={amt} onChange={(e)=> setAmt(e.target.value)}/>
-      </div>
-      <div className='d-flex justify-content-center'>
-        <button type="submit" data-type="transaction-submit" className="btn btn-outline-primary">Submit</button>
-      </div>
-    </form>    
+      
+
+    </Form>    
   );
 }
 

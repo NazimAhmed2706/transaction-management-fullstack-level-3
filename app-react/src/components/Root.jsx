@@ -11,7 +11,7 @@ console.log("Root.jsx= => NPM modules and Relative Local modules imported");
 function Root() {
   console.log("index.js= => Root - function call");
   return (
-    <Stack direction="horizontal" gap={3}>
+    <Stack direction="horizontal" gap={1.5}>
       <div className="p-3 align-self-start" style={{width: '30vw'}}>Submit New Transaction
         <NewTransaction />
       </div>

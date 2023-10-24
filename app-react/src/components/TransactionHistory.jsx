@@ -52,9 +52,8 @@ function TransactionHistory() {
                         account_id:transaction.account_id,
                         transaction_id:transaction.transaction_id,
                         amount : transaction.amount
-                    };
+                    }; 
                 }
-
                 // Add individual transaction summary as json
                 tempTransactionSummary.push(transactionJSON)
                 console.log("TransactionHistory.jsx= => TransactionHistory => ", transactionJSON);
@@ -87,14 +86,14 @@ function TransactionHistory() {
 
                     // For latest transaction, display account balance as well.
                     if (index === 0 ){
-                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={transactionAmount} data-balance={transaction.balance} 
+                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={+ transaction.amount} data-balance={transaction.balance} 
                                     className="border rounded p-3" key={transaction.transaction_id}>
                                     Transferred {transactionAmount}$ {transactionDirection} account {transaction.account_id}. <br />
                                     The current balance is {transaction.balance}$. 
                                 </div>
                     }
                     else {
-                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={transactionAmount} 
+                        return <div data-type="transaction" data-account-id={transaction.account_id} data-amount={+ transaction.amount}
                                     className="border rounded p-3" key={transaction.transaction_id}>
                                     Transferred {transactionAmount}$ {transactionDirection} account {transaction.account_id}.
                                 </div>
