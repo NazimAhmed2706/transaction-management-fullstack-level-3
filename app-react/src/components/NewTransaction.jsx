@@ -10,6 +10,7 @@ function NewTransaction() {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const accountIDRegExp = /^[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-[a-f0-9]{4}\-[a-f0-9]{12}/;
   console.log("NewTransaction.jsx= => NewTransaction => Default state assigned");
 
   // Validate the form field while change
@@ -25,13 +26,18 @@ function NewTransaction() {
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit - function call");
 
     // Validate the form post submit
-    
     setFormErrors(validate(formValues));
-    if(Object.keys(formErrors).length > 0){
+    if(!(Object.keys(formErrors).length === 0)){
       console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Validation Failed Post Submit Clicked.");
       isSubmit = false;
       return;
     }
+    
+    if(! accountIDRegExp.test(formValues.account_id)){
+      console.log("NewTransaction.jsx= => NewTransaction => Invalid Account Id: ", formValues.account_id);
+      return;
+    }
+
     setIsSubmit(true);
     console.log("NewTransaction.jsx= => NewTransaction => handleSubmit => Validation Success Post Submit Clicked.");
     
@@ -63,7 +69,6 @@ function NewTransaction() {
   const validate = (values) => {
     console.log("NewTransaction.jsx= => NewTransaction => validate - function call");
     const errors = {};
-    const accountIDRegExp = /^[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-[a-f0-9]{4}\-[a-f0-9]{12}/;
     if (! values.account_id){
       console.log("NewTransaction.jsx= => NewTransaction => Account ID is required!");
       errors.account_id = "Account ID is required!";
@@ -82,13 +87,13 @@ function NewTransaction() {
   };
 
   return (
-    // noValidate validated={validated} 
     <div>
-      { 
+      { /*
         Object.keys(formErrors).length === 0 && isSubmit ? 
         (<div className="ui message success border rounded p-1 mb-2 bg-success text-white text-center">Transaction Submitted Successfully</div>) : 
-        (<pre>{JSON.stringify(formValues, undefined, 2)}</pre>)
+        (<pre>{JSON.stringify(formValues, undefined, 2)}</pre>)*/
       }
+      
       <form className="border rounded mt-3 p-3" onSubmit={handleSubmit}>
         <div className="form-group m-1">
           <label>Account ID:</label>
