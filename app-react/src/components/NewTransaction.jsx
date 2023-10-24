@@ -89,21 +89,19 @@ function NewTransaction() {
           JSON.stringify(formValues, undefined, 2)
         }
       </pre>
-      <Form className="border rounded mt-3 p-1" onSubmit={handleSubmit}> 
-      <Form.Group as={Row} className="m-1">
-        <Form.Label>Account ID:</Form.Label>
-        <Form.Control type="text" data-type="account-id" placeholder="Enter Account ID" name="account_id" value={formValues.account_id} onChange={handleChange} />
-        {/* <Form.Control.Feedback type="invalid">Please enter a valid Account ID</Form.Control.Feedback> */}
-      </Form.Group>
-      <Form.Group as={Row} className="m-1">
-        <Form.Label>Amount:</Form.Label>
-        <Form.Control type="text" data-type="amount" placeholder="Enter Amount" name="amount" value={formValues.amount} onChange={handleChange} />
-        {/* <Form.Control.Feedback type="invalid">Please enter a valid amount</Form.Control.Feedback> */}
-      </Form.Group>
-      <div className='d-flex justify-content-center mt-3'>
-        <Button type="submit" data-type="transaction-submit" variant="primary">Submit</Button>
-      </div>
-    </Form> 
+      <form className="border rounded mt-3 p-3" onSubmit={handleSubmit}>
+        <div className="form-group m-1">
+          <label>Account ID:</label>
+          <input type="text" data-type="account-id" className="form-control" placeholder="Enter Account ID" name="account_id" value={formValues.account_id} onChange={handleChange} />
+        </div>
+        <div className="form-group m-1">
+          <label>Amount:</label>
+          <input type="number" data-type="amount" className="form-control" placeholder="Enter Amount" name="amount" value={formValues.amount} onChange={handleChange} />
+        </div>
+        <div className='d-flex justify-content-center mt-3'>
+          <button type="submit" data-type="transaction-submit" className="btn btn-outline-primary">Submit</button>
+        </div>
+      </form>
     </div>
        
   );
